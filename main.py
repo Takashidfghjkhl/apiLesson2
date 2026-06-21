@@ -3,6 +3,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
+
 def get_exchange_rates(base_currency, apikey):
     url = f"https://v6.exchangerate-api.com/v6/{apikey}/latest/{base_currency.upper()}"
     response = requests.get(url)
@@ -10,10 +11,12 @@ def get_exchange_rates(base_currency, apikey):
     exchange_rates = response.json()["conversion_rates"]
     return exchange_rates
 
+
 def convert_amount(amount, target_currency, exchange_rates):
     target_rate = exchange_rates[target_currency.upper()]
     print(f"Курс целевой валюты: {target_rate}")
     print(f"Сконвертированная сумма: {target_rate * amount}{target_currency}")
+
 
 def main():
     load_dotenv()
@@ -26,9 +29,10 @@ def main():
     try:
         exchange_rates = get_exchange_rates(args.base, apikey)
         convert_amount(args.amount, args.target, exchange_rates)
-    
     except requests.exceptions.HTTPError as error:
         print("проверьте правильность кода вводимой вами валюты")
         print(f"код ошибки {error}")
-if __name__ == "main":
+
+
+if __name__ == "__main__":
     main()
